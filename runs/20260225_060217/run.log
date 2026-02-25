@@ -1,0 +1,17 @@
+[06:02:17] INFO __main__: Writing logs to runs\20260225_060217\run.log
+[06:02:17] INFO src.pipeline: Starting single split run (dataset=kdd99, binary=True, feature_k=18, seed=42, max_rows=500000, resample=none)
+[06:02:17] INFO src.utils_seed: Setting global seed: 42
+[06:02:17] INFO src.utils_seed: Saved run metadata: runs\20260225_060217\run_metadata.json
+[06:02:17] INFO src.data: Loading KDD99 (binary=True, max_rows=500000, remove_duplicates=True)
+[06:02:18] INFO src.data: Local KDD99 file not found. Fetching via sklearn...
+[06:06:27] INFO src.data: Removed duplicate rows: 3823457
+[06:06:41] INFO src.data: Applying stratified sample: 1074974 -> 500000 rows
+[06:06:49] INFO src.data: Stratified sample complete: 500000 rows
+[06:06:49] INFO src.data: KDD99 loaded: rows=500000, features=41, classes=2
+[06:07:14] INFO src.pipeline: Dataset loaded: rows=500000, columns=41
+[06:07:16] INFO src.pipeline: Splits prepared: train=400000, val=50000, test=50000
+[06:07:24] INFO src.pipeline: Preprocessing complete: encoded_features=121
+[06:07:24] INFO src.pipeline: Resampling complete: class_distribution={0: 302447, 1: 97553}
+[06:07:24] INFO src.pipeline: Running CNN+RF pipeline...
+[06:07:25] INFO src.model_cnn: Building CNN model (features=121, classes=2, embedding_dim=18, lr=0.001)
+[06:07:52] INFO src.model_cnn: Training CNN (epochs=100, batch_size=128, patience=10, train_shape=(400000, 121, 1), val_shape=(50000, 121, 1))

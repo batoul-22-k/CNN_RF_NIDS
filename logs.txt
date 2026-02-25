@@ -1,0 +1,45 @@
+dir data --binary true --feature_k 18 --max_rows 500000
+2026-02-24 22:29:03.841135: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-02-24 22:29:07.518185: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+[22:29:08] INFO __main__: Starting run_kdd99 with args: {'dataset': 'kdd99', 'data_dir': 'data', 'binary': True, 'cv_folds': 0, 'use_gridsearch': False, 'feature_k': 18, 'seed': 42, 'max_rows': 500000, 'resample': 'none'}
+[22:29:08] INFO src.pipeline: Created run directory: runs\20260224_222908
+[22:29:08] INFO src.pipeline: Starting single split run (dataset=kdd99, binary=True, feature_k=18, seed=42, max_rows=500000, resample=none)
+[22:29:08] INFO src.utils_seed: Setting global seed: 42
+[22:29:08] INFO src.utils_seed: Saved run metadata: runs\20260224_222908\run_metadata.json
+[22:29:08] INFO src.data: Loading KDD99 (binary=True, max_rows=500000, remove_duplicates=True)
+[22:29:09] INFO src.data: Local KDD99 file not found. Fetching via sklearn...
+[22:31:28] INFO src.data: Removed duplicate rows: 3823457
+[22:31:33] INFO src.data: Applying stratified sample: 1074974 -> 500000 rows
+[22:31:36] INFO src.data: Stratified sample complete: 500000 rows
+[22:31:36] INFO src.data: KDD99 loaded: rows=500000, features=41, classes=2
+[22:31:41] INFO src.pipeline: Dataset loaded: rows=500000, columns=41
+[22:31:43] INFO src.pipeline: Splits prepared: train=400000, val=50000, test=50000
+[22:31:48] INFO src.pipeline: Preprocessing complete: encoded_features=121
+[22:31:48] INFO src.pipeline: Resampling complete: class_distribution={0: 302447, 1: 97553}
+[22:31:48] INFO src.pipeline: Running CNN+RF pipeline...
+[22:31:48] INFO src.model_cnn: Building CNN model (features=121, classes=2, embedding_dim=18, lr=0.001)
+2026-02-24 22:31:54.062254: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[22:31:56] INFO src.model_cnn: Training CNN (epochs=100, batch_size=128, patience=10, train_shape=(400000, 121, 1), val_shape=(50000, 121, 1))
+2026-02-24 22:32:38.419191: E tensorflow/core/framework/node_def_util.cc:680] NodeDef mentions attribute use_unbounded_threadpool which is not in the op definition: Op<name=MapDataset; signature=input_dataset:variant, other_arguments: -> handle:variant; attr=f:func; attr=Targuments:list(type),min=0; attr=output_types:list(type),min=1; attr=output_shapes:list(shape),min=1; attr=use_inter_op_parallelism:bool,default=true; attr=preserve_cardinality:bool,default=false; attr=force_synchronous:bool,default=false; attr=metadata:string,default=""> This may be expected if your graph generating binary is newer  than this binary. Unknown attributes will be ignored. NodeDef: {{node ParallelMapDatasetV2/_15}}   
+[22:53:41] INFO src.model_cnn: CNN training complete in 1304.78 s
+[22:53:41] INFO src.pipeline: CNN training stage done.
+2026-02-24 22:54:06.814156: E tensorflow/core/framework/node_def_util.cc:680] NodeDef mentions attribute use_unbounded_threadpool which is not in the op definition: Op<name=MapDataset; signature=input_dataset:variant, other_arguments: -> handle:variant; attr=f:func; attr=Targuments:list(type),min=0; attr=output_types:ls:list(shape),min=1; attr=use_intes:list(shape),min=1; attr=use_inter_op_parallelism:bool,default=true; attr=preserve_cardinality:bool,default=false; attr=force_synchronous:bool,default=false; attr=metadata:string,default=""> This may be expected if your graph generating binary is newer  than this binary. Unknown attributes will be ignored. NodeDef: {{node ParallelMapDatasetV2/_14}}   
+[22:54:13] INFO src.pipeline: Embedding extraction done in 31.37 s
+[22:54:13] INFO src.model_rf: Training RF with fixed params: {'n_estimators': 50, 'max_depth': 20, 'max_leaf_nodes': 1500, 'min_samples_split': 2, 'min_samples_leaf': 1, 'criterion': 'gini'}
+[22:55:00] INFO src.pipeline: CNN+RF evaluation complete: f1=0.9993 acc=0.9997
+[22:55:00] INFO src.baselines: Running baselines...
+[22:55:53] INFO src.baselines: RF (all features) complete: f1=0.9995 acc=0.9998
+[22:58:15] INFO src.baselines: PCA+RF complete: f1=0.9979 acc=0.9990
+[23:22:29] INFO src.baselines: GA+RF complete: f1=0.9942 acc=0.9972
+[23:22:38] INFO src.baselines: C4.5-like complete: f1=0.9991 acc=0.9995
+[23:22:51] INFO src.baselines: NBTree-proxy complete: f1=0.9952 acc=0.9976
+[02:39:40] INFO src.baselines: SVM (RBF) complete: f1=0.9979 acc=0.9990
+[02:39:40] INFO src.baselines: Finished baselines (6 models).
+[02:39:41] INFO src.plots: Generating metric bar plot: runs\20260224_222908\metrics_bar.png
+[02:39:47] INFO src.plots: Generating ROC curve plot: runs\20260224_222908\roc_curves.png
+[02:39:47] INFO src.plots: Generating time bar plot: runs\20260224_222908\time_bar.png
+[02:39:47] INFO src.pipeline: Single split run completed. Outputs saved to runs\20260224_222908
+[02:39:48] INFO __main__: run_kdd99 completed. Outputs: runs\20260224_222908
+
+
